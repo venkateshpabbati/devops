@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>RAOGARU_DEVOPS_AMCHARTS_TITLE</title>
+        <link rel="stylesheet" href="style.css" type="text/css">
+        <script src="../amcharts/amcharts.js" type="text/javascript"></script>
+        <script src="../amcharts/funnel.js" type="text/javascript"></script>
+        <script>
+
+            var chart;
+var chartData = [
+//RAOGARU_DEVOPS_AMCHARTS_DATA_BEGIN
+//RAOGARU_DEVOPS_AMCHARTS_DATA_END
+];
+
+            AmCharts.ready(function () {
+
+                chart = new AmCharts.AmFunnelChart();
+				chart.addTitle="RAOGARU_DEVOPS_AMCHARTS_TITLE";
+                chart.rotate = true;
+                chart.titleField = "rc_category";
+                chart.balloon.fixedPosition = true;
+                chart.marginRight = 210;
+                chart.marginLeft = 15;
+                chart.labelPosition = "right";
+                chart.funnelAlpha = 0.9;
+                chart.valueField = "rc_value";
+                chart.startX = -500;
+                chart.dataProvider = chartData;
+                chart.startAlpha = 0;
+                chart.depth3D = 30;
+                chart.angle = 30;
+                chart.outlineAlpha = 1;
+                chart.outlineThickness = 2;
+                chart.outlineColor = "#FFFFFF";
+                chart.write("chartdiv");
+            });
+        </script>
+    </head>
+
+    <body>
+        <div id="chartdiv" style="width: 700px; height: 500px;"></div>
+    </body>
+
+</html>

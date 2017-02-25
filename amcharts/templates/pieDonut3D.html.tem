@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>RAOGARU_DEVOPS_AMCHARTS_TITLE</title>
+        <link rel="stylesheet" href="style.css" type="text/css">
+        <script src="../amcharts/amcharts.js" type="text/javascript"></script>
+        <script src="../amcharts/pie.js" type="text/javascript"></script>
+
+        <script>
+            var chart;
+
+var chartData = [
+//RAOGARU_DEVOPS_AMCHARTS_DATA_BEGIN
+//RAOGARU_DEVOPS_AMCHARTS_DATA_END
+];
+
+
+            AmCharts.ready(function () {
+                // PIE CHART
+                chart = new AmCharts.AmPieChart();
+                chart.addTitle("RAOGARU_DEVOPS_AMCHARTS_TITLE", 16);
+                chart.dataProvider = chartData;
+                chart.titleField = "rc_category";
+                chart.valueField = "rc_value";
+                chart.sequencedAnimation = true;
+                chart.startEffect = "elastic";
+                chart.innerRadius = "30%";
+                chart.startDuration = 2;
+                chart.labelRadius = 15;
+                chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                // the following two lines makes the chart 3D
+                chart.depth3D = 10;
+                chart.angle = 15;
+
+                // WRITE
+                chart.write("chartdiv");
+            });
+        </script>
+    </head>
+
+    <body>
+        <div id="chartdiv" style="width:600px; height:400px;"></div>
+    </body>
+
+</html>
