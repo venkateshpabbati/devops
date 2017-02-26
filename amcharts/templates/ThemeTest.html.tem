@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>RAOGARU_DEVOPS_AMCHARTS_TITLE</title>
+        <link rel="stylesheet" href="style.css" type="text/css">
+        <link href='http://fonts.googleapis.com/css?family=Covered+By+Your+Grace' rel='stylesheet' type='text/css'>
+        <script src="../amcharts/amcharts.js" type="text/javascript"></script>
+        <script src="../amcharts/serial.js" type="text/javascript"></script>
+        <script src="../amcharts/pie.js" type="text/javascript"></script>
+
+        <script src="../amcharts/themes/light.js" type="text/javascript"></script>
+        <script src="../amcharts/themes/dark.js" type="text/javascript"></script>
+        <script src="../amcharts/themes/black.js" type="text/javascript"></script>
+        <script src="../amcharts/themes/chalk.js" type="text/javascript"></script>
+        <script src="../amcharts/themes/patterns.js" type="text/javascript"></script>
+        <script>
+
+var chart;
+var chartData = [
+//RAOGARU_DEVOPS_AMCHARTS_DATA_BEGIN
+//RAOGARU_DEVOPS_AMCHARTS_DATA_END
+];
+
+        makeCharts("light", "#FFFFFF");
+
+        function makeCharts(theme, bgColor, bgImage) {
+
+            if (chart) {
+                chart.clear();
+            }
+
+            // background
+            if (document.body) {
+                document.body.style.backgroundColor = bgColor;
+                document.body.style.backgroundImage = "url(" + bgImage + ")";
+            }
+
+
+            // pie chart
+            chart = AmCharts.makeChart("chartdiv", {
+                type: "pie",
+                theme: theme,
+                dataProvider: chartData,
+                titleField: "rc_category",
+                valueField: "rc_value",
+                balloonText: "[[title]]<br><b>[[value]]</b> ([[percents]]%)",
+                legend: {
+                    align: "center",
+                    markerType: "circle"
+                }
+            });
+
+        }
+
+
+        </script>
+    </head>
+
+    <body style="font-size:15px;">Select theme:
+        <a href="#" onclick="makeCharts('light', '#ffffff');">Light</a> |
+        <a href="#" onclick="makeCharts('dark', '#282828')">Dark</a> |
+        <a href="#" onclick="makeCharts('black', '#222222')">Black</a> |
+        <a href="#" onclick="makeCharts('patterns', '#ffffff')">Patterns</a> |
+        <a href="#" onclick="makeCharts('chalk', '#282828', 'images/board.jpg')">Chalk</a>
+        <div id="chartdiv" style="width: 800px; height: 600px;"></div>
+    </body>
+
+</html>
