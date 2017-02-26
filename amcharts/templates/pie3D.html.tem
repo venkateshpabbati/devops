@@ -10,7 +10,6 @@
 
         <script>
             var chart;
-            var legend;
 
 var chartData = [
 //RAOGARU_DEVOPS_AMCHARTS_DATA_BEGIN
@@ -29,7 +28,7 @@ var chartData = [
                 chart.outlineThickness = 2;
                 chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
                 // this makes the chart 3D
-                chart.depth3D = 15;
+                chart.depth3D = 30;
                 chart.angle = 30;
 
                 // WRITE
