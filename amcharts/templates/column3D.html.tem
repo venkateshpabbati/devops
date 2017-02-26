@@ -20,7 +20,7 @@ var chartData = [
                 // SERIAL CHART
                 chart = new AmCharts.AmSerialChart();
                 chart.dataProvider = chartData;
-				chart.addTitle="RAOGARU_DEVOPS_AMCHARTS_TITLE";
+                chart.addTitle="RAOGARU_DEVOPS_AMCHARTS_TITLE";
                 chart.categoryField = "rc_category";
                 // the following two lines makes chart 3D
                 chart.depth3D = 20;
