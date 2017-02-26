@@ -15,6 +15,10 @@
         <script src="../amcharts/themes/black.js" type="text/javascript"></script>
         <script src="../amcharts/themes/chalk.js" type="text/javascript"></script>
         <script src="../amcharts/themes/patterns.js" type="text/javascript"></script>
+
+        <script type="text/javascript" src="../amcharts/plugins/export/export.js"></script>
+        <link  type="text/css" href="../amcharts/plugins/export/export.css" rel="stylesheet">
+
         <script>
 
 var chart;
@@ -49,6 +53,9 @@ var chartData = [
                 legend: {
                     align: "center",
                     markerType: "circle"
+                },
+                export: {
+                    "enabled": true
                 }
             });
 
