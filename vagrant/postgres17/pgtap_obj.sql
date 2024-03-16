@@ -11,15 +11,17 @@ create group group1;
 
 create role role1;
 
-create table table1(id1 integer primary key, id2 integer unique, 
+create table table1(
+id1 integer , 
+id2 integer unique, 
 typ char(3) not null,
 amt numeric default '1.00' check (amt>0),
 dt date default current_date,
 notes varchar(100));
 
-alter table table1 add constraint table1_pk primary key (id1);
-
 create index index1_pk on table1(id1);
+
+alter table table1 add constraint table1_pk primary key (id1);
 
 create unique index index2_uk on table1(id2);
 
