@@ -70,6 +70,7 @@ select is_normal_function('public'::name,'function1'::name);
 --select is_procedure('public'::name,'function1'::name);
 
 select is_aggregate('sum');
+
 /*
 isnt_aggregate()
 is_window()
