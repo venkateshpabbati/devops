@@ -82,7 +82,6 @@ select lo_create(10);
 comment on large object 10 is 'this is large object 10';
 
 /*
-
 TRANSFORM
 SERVER
 USER MAPPING
@@ -93,5 +92,4 @@ POLICY
 OPERATOR
 OPERATOR CLASS
 OPERATOR FAMILY
-
 */
