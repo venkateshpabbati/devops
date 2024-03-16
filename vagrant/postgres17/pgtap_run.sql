@@ -37,7 +37,7 @@ select col_default_is('table1'::name,'amt'::name,'1.0');
 select is_indexed('public'::name,'table1'::name,'id2'::name);
 select index_is_type('public'::name,'table1'::name,'index2_uk'::name,'btree');
 select index_is_unique('public','table1','index2_uk');
-select index_is_primary('public','table1','table1_pkey');
+select index_is_primary('public','table1','table1_pk');
 select has_index ('public'::name,'table1'::name,'index2_uk'::name,'id2'::name);
 
 select has_view ('public','view1'::name);
