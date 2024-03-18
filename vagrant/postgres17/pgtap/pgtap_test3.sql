@@ -11,47 +11,32 @@ select concat('pg_version: ',pg_version());
 select concat('os_name: ',os_name());
 select concat('pgTAP version: ',pgtap_version());
 
-select 'TEST: SQL results data set validation';
-
-select plan(7);
+select 'TEST: Partitions validation';
+select plan(17);
 select '======================================================================';
 
-SELECT results_eq(
-	'SELECT id1 FROM public.table1 where id1<4', 
-	ARRAY[1,2,3],
-	 'Result from table table1 compare with constants'
-	
-);
+SELECT is_partitioned('public'::name,'pt_range'::name);
+SELECT is_partitioned('public'::name,'pt_list'::name);
+SELECT is_partitioned('public'::name,'pt_hash'::name);
 
-SELECT results_eq(
-	'SELECT id1 FROM public.table1 where id1<4', 
-	'SELECT id1 FROM public.table1 where id2<14',
-	 'Result from table table1 table1 using 2 diferent SQLs'
-	);
+SELECT is_partition_of('public'::name,'pt_range_p1'::name,'public'::name,'pt_range');
+SELECT is_partition_of('public'::name,'pt_range_p2'::name,'public'::name,'pt_range');
+SELECT is_partition_of('public'::name,'pt_range_p3'::name,'public'::name,'pt_range');
 
-SELECT results_eq(
-	'SELECT id1,id2 FROM public.table1 where id1 in (1,5,10)',
-	$$VALUES ( 1,11), (5,15), (10,20)$$,
-	'Results from table table1 SQL compared with cursor of constants'
-	);
+SELECT is_partition_of('public'::name,'pt_list_p1'::name,'public'::name,'pt_list');
+SELECT is_partition_of('public'::name,'pt_list_p2'::name,'public'::name,'pt_list');
+SELECT is_partition_of('public'::name,'pt_list_p3'::name,'public'::name,'pt_list');
+SELECT is_partition_of('public'::name,'pt_list_p4'::name,'public'::name,'pt_list');
 
-SELECT isnt_empty( 'select * from public.table1','Table table1 should not be empty');
-SELECT is_empty( 'select * from public.table3','Table table3 should be empty');
+SELECT is_partition_of('public'::name,'pt_hash_p1'::name,'public'::name,'pt_hash');
+SELECT is_partition_of('public'::name,'pt_hash_p2'::name,'public'::name,'pt_hash');
+SELECT is_partition_of('public'::name,'pt_hash_p3'::name,'public'::name,'pt_hash');
+SELECT is_partition_of('public'::name,'pt_hash_p4'::name,'public'::name,'pt_hash');
 
+SELECT partitions_are('public','pt_range',ARRAY['pt_range_p1','pt_range_p2','pt_range_p3']);
+SELECT partitions_are('public','pt_list',ARRAY['pt_list_p1','pt_list_p2','pt_list_p3','pt_list_p4']);
+SELECT partitions_are('public','pt_hash',ARRAY['pt_hash_p1','pt_hash_p2','pt_hash_p3','pt_hash_p4']);
 
-SELECT row_eq(
-	$$ SELECT id1, id2 from public.table1 where id1=7$$,
-	ROW(7,17),
-	'Row data match for SQL output with Row values'
-	);
-
-SELECT set_has(
-	'SELECT id1 FROM public.table1 where id1<4', 
-	'SELECT id1 FROM public.table1 where id2<14
-union all
-	SELECT id1 FROM public.table1 where id2<14',
-	 'Result from SQL1 has result from SQL2'
-	);
 
 select '======================================================================';
 select finish();
