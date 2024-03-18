@@ -7,10 +7,6 @@
 
 set search_path to "$user", public, postgres;
 
-select concat('pg_version: ',pg_version());
-select concat('os_name: ',os_name());
-select concat('pgTAP version: ',pgtap_version());
-
 select 'TEST: SQL results data set validation';
 
 select plan(7);
