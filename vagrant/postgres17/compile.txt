@@ -1,0 +1,104 @@
+s
+# Download postgresql Source code,compile code, Install binaries 
+#
+# ######################################################################
+# Documentation
+https://pgpedia.info/postgresql-versions/postgresql-16.html
+prepare: https://wiki.postgresql.org/wiki/Compile_and_Install_from_source_code
+source : https://github.com/postgres/postgres.git pgsql
+build  : https://www.postgresql.org/docs/current/installation.html
+
+# ######################################################################
+# VirtualBox VM
+cd ~/Vagrant/postgre16
+vagrant up
+vagrant ssh
+
+# OS Software
+sudo su - 
+timedatectl set-timezone 'America/New_York'
+yum update -y
+yum install -y bison-devel readline-devel zlib-devel openssl-devel wget ccache
+yum groupinstall -y 'Development Tools'
+
+#sudo su -
+adduser postgres
+#mkdir -p /usr/local/pgsql
+#chown postgres:postgres /usr/local/pgsql
+
+# Download
+sudo su - postgres
+echo '
+export PGCODE=$HOME/code
+export PGDATA=$HOME/data
+export PGSOFT=$HOME/pgsql
+export PGBIN=$PGSOFT/bin
+export PATH=$PATH:$PGBIN
+set -o vi
+' >> ~/.bash_profile
+
+cd $HOME
+rm -rf $PGCODE
+git clone https://github.com/postgres/postgres.git 
+find $PGCODE -print -exec touch -t 202301010000 {} \;
+
+
+#Customize
+vi configure.ac
+modify AC_INIT line with following
+AC_INIT([RaogaruDB], [16.0], [rao@raogarudb.io], [], [https://www.raogarudb.io/])
+
+# run autoconf to create configure script
+autoconf
+
+# Compile
+sudo su - postgres
+cd $PGCODE
+./configure --prefix=$PGSOFT --without-icu -q
+#./configure --prefix=$PGSOFT -q
+# ./configure --prefix=$PGSOFT --enable-debug CFLAGS="-DOPTIMIZER_DEBUG"
+# ./configure --prefix=$PGSOFT --enable-debug CFLAGS="-O0"
+make -s clean
+make -s
+make -s check
+make -s install
+mkdir -p $PGDATA
+chown postgres:postgres $PGDATA
+
+# DB
+su - postgres
+$PGBIN/initdb -D $PGDATA
+$PGBIN/pg_ctl -D $PGDATA start -l $HOME/logs/postgres.log
+$PGBIN/pg_ctl -D $PGDATA stop
+
+select * from pg_tables where schemaname='public';
+
+# ######################################################################
+
+Local Changes:
+
+./src/bin/psql/help.c
+function: helpSQL
+change: Search for "Command:" Add #'s top and bottom for command help fprintf
+
+./src/bin/psql/describe.c
+functions: all functions starting with describe
+change: Add RAOGARU to variable named myopt.title
+:1,$s/myopt.title = _("/myopt.title = _("RAODB: /
+
+
+./src/bin/psql/mainloop.c
+function: MainLoop
+change: 3 times: Look for SendQuery and printf string that is going as arg to SendQuery
+
+./src/interfaces/libpq/fe-print.c
+function:  PQprint
+change: customize (N rows) result
+
+./src/bin/psql/common.c
+function: PrintQueryStatus
+--print in color
+fprintf(fout, "\033[0,32m%s\033[0,0m\n", PQcmdStatus(result));
+ 
+# ######################################################################
+ 
