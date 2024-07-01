@@ -1,0 +1,42 @@
+# ################################################################################
+# Install pg_partman
+
+cd GitHub/devops/vagrant/postgre17
+vagrant up
+vagrant ssh
+sudo su - postgres
+cd $HOME/code/contrib
+git clone  https://github.com/pgpartman/pg_partman.git
+cd $HOME/code/contrib/pg_partman
+make 
+make install
+
+psql
+create extension pg_partman;
+
+# ################################################################################
+# Install on linux VM
+
+sudo su - 
+yum -y install cpan
+yum -y update cpan
+yum -y install perl-Module-Build
+cpan App::cpanminus
+cpan TAP::Parser::SourceHandler::pgTAP
+
+echo 'export PATH=${PATH}:/root/perl5/bin' >> ${HOME}/.bash_profile
+echo 'export PERL5LIB=${PERL5LIB}:/root/perl5/lib/perl5' >> ${HOME}/.bash_profile
+
+# ################################################################################
+# Run pg_prove test cases
+
+sudo su - postgres
+pg_prove t/*.sql
+
+# ################################################################################
+# Install pg_prove  on Mac
+
+brew install cpan
+cpan App::cpanminus
+cpan TAP::Parser::SourceHandler::pgTAP
+
