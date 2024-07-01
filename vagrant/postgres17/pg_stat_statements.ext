@@ -1,0 +1,38 @@
+# ----------------------------------------
+# pg_stat_statements - WORKING 
+
+sudo su - postgres
+cd $PGCODE/contrib/pg_stat_statements
+make 
+make install
+
+psql
+CREATE EXTENSION pg_stat_statements;
+alter system set shared_preload_libraries = 'pg_stat_statements';
+alter system set track_activity_query_size=2048;
+alter system set pg_stat_statements.track = all;
+alter system set compute_query_id = on;
+alter system set pg_stat_statements.max = 10000;
+
+#restart postgresql
+PGstop
+PGstart
+
+
+# test after benchmarking 
+pgbench -i
+pgbench -c10 -t300
+
+psql
+\d pg_stat_statements
+select * from pg_stat_statements;
+\x 
+SELECT query, calls, total_exec_time, rows, 100.0 * shared_blks_hit /
+nullif(shared_blks_hit + shared_blks_read, 0) AS hit_percent
+FROM pg_stat_statements ORDER BY total_exec_time DESC LIMIT 5;
+
+How to use?
+Refer to $PGCODE/contrib/pg_stat_statements/sql/*.sql
+
+# ----------------------------------------
+
