@@ -192,9 +192,6 @@ SELECT false;
 DROP VIEW if exists rao_xxx;
 CREATE OR REPLACE VIEW rao_xxx AS
 SELECT false;
-
-
-
 -- ================================================================================
 DROP VIEW if exists rao_part_tables;
 CREATE OR REPLACE VIEW rao_part_tables AS
@@ -221,8 +218,6 @@ tabparts - owner, table_name, part_type,part_name,
 tabpartcols - owner, table_name, part_name, part_columns
 tabpartvals - owner, table_name, part_name, part_col_values
 tabpartstats - owner, table_name, part_name, num_rows, etc.
-
-
 */
 -- ================================================================================
 /*

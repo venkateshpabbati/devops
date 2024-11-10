@@ -1,0 +1,45 @@
+{
+   "name": "pgrao",
+   "abstract": "PGRAO Extension for PostgreSQL",
+   "description": "PGRAO Extension for PostgreSQL",
+   "version": "1.0.0",
+   "maintainer": [ "RAOGARU", "rao@raogaru.com" ],
+   "license": {
+      "PostgreSQL": "https://www.postgresql.org/about/licence"
+   },
+   "prereqs": {
+      "runtime": {
+         "requires": { "plpgsql": 0, "PostgreSQL": "16.0.0" },
+         "recommends": { "PostgreSQL": "16.0.0" }
+      }
+   },
+   "provides": {
+     "pgrao": {
+       "abstract": "RAO Extensionfor PostgreSQL",
+       "file": "sql/pgrao-base.sql",
+       "version": "1.0.0"
+     },
+     "pgrao-core": {
+       "abstract": "RAO Extension for PostgreSQL",
+       "file": "sql/pgrao-catalog.sql",
+       "version": "1.0.0"
+     }
+   },
+   "resources": {
+      "homepage": "https://raogaru.com/",
+      "bugtracker": {
+         "web": "https://github.com/raogaru/pgrao/issues"
+      },
+      "repository": {
+        "url":  "https://github.com/raogaru/pgrao.git",
+        "web":  "https://github.com/raogaru/pgrao",
+        "type": "git"
+      }
+   },
+   "generated_by": "RAOGARU",
+   "meta-spec": {
+      "version": "1.0.0",
+      "url": "https://pgxn.org/meta/spec.txt"
+   },
+   "tags": [ "postgres", "extension", "pgrao" ]
+}

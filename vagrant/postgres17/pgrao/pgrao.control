@@ -1,0 +1,6 @@
+comment = 'PGRAO Postgres DB Catalog Extension '
+default_version = '1.0.0'
+relocatable = true
+module_pathname = '$libdir/pgrao'
+requires = 'plpgsql'
+superuser = true
