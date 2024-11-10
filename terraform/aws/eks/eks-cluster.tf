@@ -3,7 +3,7 @@ module "eks" {
   version = "18.26.6"
 
   cluster_name    = local.cluster_name
-  cluster_version = "1.24"
+  cluster_version = "1.27"
 
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
@@ -21,7 +21,7 @@ module "eks" {
 
 # ========================================
     one = {
-      name                    = "demo-eks-ng1"
+      name                    = "raogaru-eks-ng1"
       instance_types          = ["t2.micro"]
       min_size                = 1
       max_size                = 4
@@ -30,13 +30,13 @@ module "eks" {
       echo 'foo bar node group1'
       EOT
       vpc_security_group_ids = [
-        aws_security_group.demo_eks_ng1_sg.id
+        aws_security_group.raogaru_eks_ng1_sg.id
       ]
     }
 
 # ========================================
     two = {
-      name                    = "demo-eks-ng2"
+      name                    = "raogaru-eks-ng2"
       instance_types          = ["t2.micro"]
       min_size                = 1
       max_size                = 4
@@ -45,26 +45,24 @@ module "eks" {
       echo 'foo bar node group2'
       EOT
       vpc_security_group_ids = [
-        aws_security_group.demo_eks_ng2_sg.id
+        aws_security_group.raogaru_eks_ng2_sg.id
       ]
     }
-# ========================================
-    three = {
-      name                    = "demo-eks-ng3"
-      instance_types          = ["t2.micro"]
-      min_size                = 1
-      max_size                = 4
-      desired_size            = 2
-      pre_bootstrap_user_data = <<-EOT
-      echo 'foo bar node group3'
-      EOT
-      vpc_security_group_ids = [
-        aws_security_group.demo_eks_ng1_sg.id
-      ]
-    }
-# ========================================
-
-
+## ========================================
+#    three = {
+#      name                    = "raogaru-eks-ng3"
+#      instance_types          = ["t2.micro"]
+#      min_size                = 1
+#      max_size                = 4
+#      desired_size            = 2
+#      pre_bootstrap_user_data = <<-EOT
+#      echo 'foo bar node group3'
+#      EOT
+#      vpc_security_group_ids = [
+#        aws_security_group.raogaru_eks_ng1_sg.id
+#      ]
+#    }
+## ========================================
   }
 
 }
