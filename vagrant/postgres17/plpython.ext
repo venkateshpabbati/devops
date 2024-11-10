@@ -1,0 +1,50 @@
+# ################################################################################
+# Extension: plPYTHON
+# Status: WORKING 
+# ################################################################################
+# Install on linux VM
+
+vagrant ssh
+sudo su - 
+
+yum install -y python3-devel
+#yum install -y postgresql-contrib
+#yum install -y postgresql-plpython
+
+
+sudo su - postgres
+alias python=/usr/bin/python3
+cd $PGCODE
+./configure --prefix=$HOME/soft --without-icu --with-python -q
+make -s
+make -s install
+
+# ################################################################################
+# create extension 
+
+psql
+create extension plpython3u;
+
+# ################################################################################
+# EXAMPLE-1
+
+CREATE FUNCTION pystrip(x text) RETURNS text AS $$
+  global x
+  x = x.strip()
+  return x
+$$ LANGUAGE plpython3u;
+
+select pystrip (' hello world ');
+
+# ################################################################################
+# EXAMPLE-2
+
+CREATE FUNCTION pymax (a integer, b integer) RETURNS integer AS $$
+  if a > b:
+    return a
+  return b
+$$ LANGUAGE plpython3u;
+
+select pymax(5, 9);
+
+# ################################################################################
