@@ -1,0 +1,87 @@
+# ################################################################################
+# Extension: pg_tle  (Trusted Language Extension)
+# Status: WIP 
+# Reference: https://github.com/aws/pg_tle/blob/main/docs/02_quickstart.md
+# ################################################################################
+# Install on linux VM
+
+vagrant ssh
+sudo su -  postgres
+
+cd $PGCODE/contrib
+
+git clone https://github.com/aws/pg_tle.git
+cd pg_tle
+make -s clean
+make -s  
+make -s install
+make -s installcheck
+
+vi $PGDATA/postgresql.conf
+shared_preload_libraries='pg_tle'
+
+PGstop
+PGstart
+
+psql
+create extension pg_tle;
+grant pgtle_admin to postgres;
+
+#for temporary loading
+alter system set shared_preload_libraries to 'pg_tle';
+
+# ----------------------------------------------------------------------
+# Install your own 'mymath' TLE using pg_tle
+
+SELECT pgtle.install_extension
+(
+	name=> 'mymath',
+	version=> '0.1',
+	description=> 'RAODB Functions for HTML Reports ',
+	ext=>
+$_pg_tle_$
+CREATE FUNCTION add(n1 integer, n2 integer) RETURNS integer AS 
+$$
+SELECT (n1 + n2);
+$$ LANGUAGE SQL;
+$_pg_tle_$
+);
+
+create extension mymath;
+
+select add(3,7);
+
+# ----------------------------------------------------------------------
+# upgrade your own 'mymath' TLE using pg_tle
+
+SELECT pgtle.install_update_path
+(
+	name=> 'mymath',
+	fromvers=> '0.1',
+	tovers=> '0.2',
+	ext=>
+$_pg_tle_$
+CREATE FUNCTION substract(n1 integer, n2 integer) RETURNS integer AS 
+$$
+SELECT (n1 - n2);
+$$ LANGUAGE SQL;
+$_pg_tle_$
+);
+
+select substract(10,6);
+
+select pgtle.set_default_version('mymath', '0.2');
+
+alter extension mymath update;
+
+# ----------------------------------------------------------------------
+# drop
+
+drop extension mymath;
+
+select pgtle.uninstall_update_path('mypath','0.2');
+
+select pgtle.uninstall_extension('mymath');
+
+# ----------------------------------------------------------------------
+
