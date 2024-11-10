@@ -1,0 +1,51 @@
+# ################################################################################
+# Extension: plSH  (linux shell routines)
+# Status: WORKING 
+# ################################################################################
+# Install on linux VM
+
+vagrant ssh
+sudo su -  postgres
+
+cd $PGCODE/contrib
+
+git clone https://github.com/petere/plsh.git
+cd plsh
+make -s clean
+make -s  
+make -s install
+make -s installcheck
+
+psql
+create extension plsh;
+
+# ----------------------------------------------------------------------
+# EXAMPLE-1
+
+CREATE OR REPLACE PROCEDURE bashexec (text) AS $$
+#!/bin/bash
+echo "Executing $*"
+$*
+$$ LANGUAGE plsh;
+
+call bashexec('ls');
+# ----------------------------------------------------------------------
+#EXAMPLE-2
+
+CREATE OR REPLACE FUNCTION bashseq(int, int) RETURNS SETOF text AS $$
+#!/bin/bash
+for i in $(seq $1 $2)
+do
+echo $i
+done
+$$ LANGUAGE plsh;
+
+select bashseq(10, 15);
+# ----------------------------------------------------------------------
+# drop
+
+drop procedure bashexec;
+drop function bashseq;
+
+# ----------------------------------------------------------------------
+
