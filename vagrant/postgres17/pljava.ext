@@ -1,0 +1,53 @@
+# ################################################################################
+# Extension: plJAVA
+# Status: WIP
+# Reference: 
+https://tada.github.io/pljava/
+https://tada.github.io/pljava/build/build.html
+https://tada.github.io/pljava/install/install.html
+# ################################################################################
+# Install plPERL
+
+cd GitHub/devops/vagrant/postgre17
+vagrant up
+vagrant ssh
+
+# ################################################################################
+# Install on linux VM
+
+sudo su - 
+yum -y install java
+yum -y install maven
+
+sudo su - postgres
+javac --version
+mvn --version
+pg_config --version
+
+cd $PGCODE/contrib
+git clone https://github.com/tada/pljava.git
+
+cd pljava
+mvn  clean  install
+
+
+# ################################################################################
+# create extension 
+
+psql
+create extension pljava;
+
+
+select sqlj.install_jar('file:/home/postgres/proj/target/proj-0.0.1-SNAPSHOT.jar', 'myjar', true);
+
+# ################################################################################
+# EXAMPLE-1
+Reference: https://tada.github.io/pljava/use/hello.html
+
+CREATE FUNCTION hello (integer, integer) RETURNS integer AS $$
+// code goes here
+$$ LANGUAGE pljava;
+
+select java1(3,7);
+
+# ################################################################################
