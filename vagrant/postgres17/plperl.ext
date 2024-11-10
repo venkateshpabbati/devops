@@ -1,0 +1,85 @@
+# ################################################################################
+# Extension: plPERL
+# Status: WORKING 
+# Reference: https://www.postgresql.org/docs/current/plperl-funcs.html
+# ################################################################################
+# Install plPERL
+
+cd GitHub/devops/vagrant/postgre17
+vagrant up
+vagrant ssh
+
+# ################################################################################
+# Install on linux VM
+
+sudo su - 
+yum -y install cpan
+yum -y update cpan
+yum -y install perl-devel
+yum -y install perl-Module-Build
+cpan App::cpanminus
+cpan ExtUtils::MakeMaker
+cpan ExtUtils::Embed 
+
+sudo su - postgres
+echo 'export PERL_HOME=/root/perl5/perlbrew/perls/perl-5.32.0' >> ${HOME}/.bash_profile
+#echo 'export PATH=${PERL_HOME}/bin:${PATH}' >> ${HOME}/.bash_profile
+echo 'export PERL5LIB=${PERL_HOME}/lib/5.32.0' >> ${HOME}/.bash_profile
+
+logout
+
+sudo su - postgres
+cd $PGCODE
+./configure --prefix=$HOME/soft --without-icu --with-perl -q
+make -s
+make -s install
+
+# ################################################################################
+# create extension 
+
+psql
+create extension pgtap;
+
+# ################################################################################
+# EXAMPLE-1
+
+CREATE FUNCTION perl_max (integer, integer) RETURNS integer AS $$
+    if ($_[0] > $_[1]) { return $_[0]; }
+    return $_[1];
+$$ LANGUAGE plperlu;
+
+select perl_max(3,7);
+
+# ################################################################################
+# EXAMPLE-2
+
+CREATE OR REPLACE function perl_array() RETURNS text[][] AS $$
+    return [['a"b','c,d'],['e\\f','g']];
+$$ LANGUAGE plperlu;
+
+select perl_array();
+
+# ################################################################################
+# EXAMPLE-3
+
+CREATE TABLE employee ( name text, basesalary integer, bonus integer);
+
+CREATE FUNCTION empcomp(employee) RETURNS integer AS $$
+    my ($emp) = @_;
+    return $emp->{basesalary} + $emp->{bonus};
+$$ LANGUAGE plperlu;
+
+SELECT name, empcomp(employee.*) FROM employee;
+
+# ################################################################################
+# EXAMPLE-4
+
+CREATE TYPE testrowperl AS (f1 integer, f2 text, f3 text);
+
+CREATE OR REPLACE FUNCTION perl_row() RETURNS testrowperl AS $$
+    return {f2 => 'hello', f1 => 1, f3 => 'world'};
+$$ LANGUAGE plperlu;
+
+SELECT * FROM perl_row();
+
+# ################################################################################
