@@ -1,0 +1,5 @@
+# hook extension
+comment = 'raodb hook example'
+default_version = '1.0'
+module_pathname = '$libdir/hook'
+relocatable = true
