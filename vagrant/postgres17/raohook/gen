@@ -1,0 +1,14 @@
+cat hook.lst | while read h
+do 
+done
+
+
+#echo "static ${h}_type prev_${h} = NULL;" >> x1
+
+#echo "// ================================================================================
+#static void
+#RAODB_${h}(void)
+#{
+#	if (prev_${h}) prev_${h}();
+#	elog(LOG, \"RAODB_${h}:\" );
+#}" >> h

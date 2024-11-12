@@ -1,0 +1,5 @@
+# raohook extension
+comment = 'raodb hook statistics'
+default_version = '1.0'
+module_pathname = '$libdir/raohook'
+relocatable = true
