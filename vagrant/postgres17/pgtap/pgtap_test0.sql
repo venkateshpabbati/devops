@@ -11,7 +11,7 @@ select concat('pg_version: ',pg_version());
 select concat('os_name: ',os_name());
 select concat('pgTAP version: ',pgtap_version());
 
-select 'TEST: Header';
+select 'TEST: Blank Test';
 
 select no_plan();
 select '======================================================================';
