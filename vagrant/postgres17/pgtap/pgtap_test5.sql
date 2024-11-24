@@ -9,7 +9,7 @@ set search_path to "$user", public, postgres;
 
 select 'TEST: Function unit testing with exceptions';
 
-select plan(5);
+select no_plan();
 select '======================================================================';
 
 SELECT throws_ok('select function3(-1,10)','P0001','30001-p1<0');
