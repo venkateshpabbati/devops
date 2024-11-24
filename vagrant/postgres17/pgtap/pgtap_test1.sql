@@ -19,7 +19,7 @@ select is(s.setting,'on','Check pg_setting: enable_nestloop') from pg_settings s
 select is(s.setting,'on','Check pg_setting: enable_seqscan') from pg_settings s where name='enable_seqscan';
 select is(s.setting,'on','Check pg_setting: enable_sort') from pg_settings s where name='enable_sort';
 select is(s.setting,'on','Check pg_setting: fsync') from pg_settings s where name='fsync';
-select is(s.setting,'off','Check pg_setting: data_checksums') from pg_settings s where name='data_checksums';
+select is(s.setting,'on','Check pg_setting: data_checksums') from pg_settings s where name='data_checksums';
 --select is(s.setting,'on','Check pg_setting: xxx') from pg_settings s where name='xxx';
 select '======================================================================';
 select finish();
