@@ -9,7 +9,7 @@ set search_path to "$user", public, postgres;
 
 select 'TEST: Performance testing';
 
-select plan(5);
+select no_plan();
 select '======================================================================';
 
 PREPARE query1 AS SELECT id1 FROM public.table1 WHERE id2 = id1+10;
