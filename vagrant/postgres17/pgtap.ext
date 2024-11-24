@@ -23,6 +23,7 @@ yum -y update cpan
 yum -y install perl-Module-Build
 cpan App::cpanminus
 cpan TAP::Parser::SourceHandler::pgTAP
+chmod 755 /root
 
 sudo su - postgres
 echo 'export PATH=${PATH}:/root/perl5/bin' >> ${HOME}/.bash_profile
@@ -35,17 +36,17 @@ psql
 create extension pgtap;
 
 # ################################################################################
-# test - manual
+# test - manual process
 
 psql
-\i /tmp/pgtap_obj.sql
-\i /tmp/pgtap_run.sql
+\i pgtap_obj.sql
+\i pgtap_test0.sql
 
 # ################################################################################
-# Run pg_prove test case
+# Run pg_prove test cases
 
 sudo su - postgres
-pg_prove /tmp/pgtap_run.sql
+pg_prove pgtap_test*.sql
 
 # ################################################################################
 # Run pg_prove test cases
@@ -54,5 +55,4 @@ sudo su - postgres
 pg_prove t/*.sql
 
 # ################################################################################
-
 
