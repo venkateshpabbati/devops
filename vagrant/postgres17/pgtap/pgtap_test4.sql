@@ -9,7 +9,7 @@ set search_path to "$user", public, postgres;
 
 select 'TEST: SQL results data set validation';
 
-select plan(7);
+select no_plan();
 select '======================================================================';
 
 SELECT results_eq(
