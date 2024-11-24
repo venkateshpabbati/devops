@@ -8,7 +8,7 @@
 set search_path to "$user", public, postgres;
 
 select 'TEST: Partitions validation';
-select plan(17);
+select no_plan();
 select '======================================================================';
 
 SELECT is_partitioned('public'::name,'pt_range'::name);
