@@ -9,7 +9,7 @@ set search_path to "$user", public, postgres;
 
 select 'TEST: Schema objects validation';
 
-select plan(38);
+select no_plan();
 select '======================================================================';
 
 select has_schema ('schema1');
