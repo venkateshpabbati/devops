@@ -989,7 +989,7 @@
                                 g));
                             g = h
                         }
-                        a = a.replace(/\[\[category\]\]/g, String(g.replace("$", "$$$")))
+                        a = a.replace(/\[\[category\]\]/g, String(g.replace(/\$/g, "$$$")))
                     }
                     g = d.numberFormatter;
                     g || (g = this.nf);
