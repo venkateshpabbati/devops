@@ -6177,7 +6177,7 @@
         "left" == f && (f = "start");
         isNaN(k) && (k = 1);
         void 0 !== b && (b = String(b), d.isIE &&
-            !d.isModern && (b = b.replace("&amp;", "&"), b = b.replace("&", "&amp;")));
+            !d.isModern && (b = b.replace(/&amp;/g, "&"), b = b.replace(/&/g, "&amp;")));
         c = {
             fill: c,
             "font-family": e,
